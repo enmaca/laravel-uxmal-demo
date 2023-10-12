@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ComponentsFormsController extends Controller
+class ComponentsController extends Controller
 {
     //
 
@@ -188,7 +188,13 @@ class ComponentsFormsController extends Controller
     {
         $uxmal = new \Enmaca\LaravelUxmal\Uxmal();
 
-        $row_col_12 = $uxmal->component('ui.row', ['attributes' => ['class' => ['col_12' => true]]]);
+        $row_col_12 = $uxmal->component('ui.row', [
+            'attributes' => [
+                'class' => [
+                    'col_12' => true
+                ]
+            ]
+        ]);
 
         $card = $row_col_12->component('ui.card', [
             'header' => [
@@ -196,21 +202,96 @@ class ComponentsFormsController extends Controller
             ]
         ]);
 
-        $card->body->component('ui.row', [
+        $main_row = $card->body->component('ui.row', [
             'attributes' => [
                 'class' => [
-                    'col-12' => true,
+                    'row' => true,
                     'mb-5' => true
                 ]
             ],
             'slot' => 'Inputs'
         ]);
 
-        $row1 = $card->body->component('ui.row', [
+        //dd($main_row->toArray());
 
+        $row1 = $main_row->component('ui.row', [
+            'attributes' => [
+                'class' => [
+                    'row' => true
+                ]
+            ]
         ]);
 
-        $row1->component('form.input', []);
+        $demo = [
+            'row' => [
+                'class' => [
+                    'col-6'
+                ],
+                'elements' => [
+                    [
+                        'livewire' => 'client.search.select'
+                    ],
+                    [
+                        'uxmal' => 'input',
+                        'data' => [
+                            'field' => [
+                                'type' => 'text',
+                                'name' => 'customerMobile',
+                                'label' => 'Celular',
+                                'placeholder' => 'Ingresa Número de Celular',
+                                'required' => true
+                            ]
+                        ]
+                    ],
+                    [
+                        'uxmal' => 'input',
+                        'data' => [
+                            'field' => [
+                                'type' => 'text',
+                                'name' => 'customerName',
+                                'label' => 'Nombre',
+                                'placeholder' => 'Ingresa el Nombre',
+                                'required' => true
+                            ]
+                        ]
+                    ],
+                    [
+                        'uxmal' => 'input',
+                        'data' => [
+                            'field' => [
+                                'type' => 'text',
+                                'name' => 'customerLastName',
+                                'label' => 'Apellido',
+                                'placeholder' => 'Ingresa el Apellido',
+                                'required' => true
+                            ]
+                        ]
+                    ],
+                    [
+                        'uxmal' => 'input',
+                        'data' => [
+                            'field' => [
+                                'type' => 'text',
+                                'name' => 'customerEmail',
+                                'label' => 'Correo Electrónico',
+                                'placeholder' => 'Ingresa el Correo Electrónico',
+                                'required' => true
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $row1->component('form.input', [
+            'options' => [
+                'type' => 'text',
+                'label' => 'Celular',
+                'input.name' => 'customerMobile',
+                'input.placeholder' => '(+52) XXXXXXXXXX',
+                'input.required' => true,
+                'mask' => 'phone' //TODO: CLEAVE INTEGRATION  https://github.com/nosir/cleave.js
+            ]
+        ]);
 
         return view('uxmal::master-default', [
             'uxmal_data' => $uxmal->toArray()

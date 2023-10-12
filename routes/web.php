@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/components', [ \App\Http\Controllers\ComponentsFormsController::class, 'index'])->name('components');
-Route::get('/components/buttons', [ \App\Http\Controllers\ComponentsFormsController::class, 'buttons'])->name('components_buttons');
-Route::get('/components/inputs', [ \App\Http\Controllers\ComponentsFormsController::class, 'inputs'])->name('components_input');
+Route::get('/components', [ \App\Http\Controllers\ComponentsController::class, 'index'])->name('components');
+Route::get('/components/buttons', [ \App\Http\Controllers\ComponentsController::class, 'buttons'])->name('components_buttons');
+Route::get('/components/inputs', [ \App\Http\Controllers\ComponentsController::class, 'inputs'])->name('components_input');
