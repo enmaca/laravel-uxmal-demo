@@ -309,7 +309,7 @@ class ComponentsController extends Controller
             ]]
         ]);
 
-        $row1->componentInDiv(['attributes' => [
+        $row1->componentsInDiv(['attributes' => [
             'class' => 'mb-3'
         ]
         ],[[
