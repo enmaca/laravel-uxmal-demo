@@ -198,23 +198,13 @@ class ComponentsController extends Controller
 
         $card = $row_col_12->component('ui.card', [
             'header' => [
-                'title' => 'Buttons'
+                'title' => 'Inputs'
             ]
-        ]);
-
-        $main_row = $card->body->component('ui.row', [
-            'attributes' => [
-                'class' => [
-                    'row' => true,
-                    'mb-5' => true
-                ]
-            ],
-            'slot' => 'Inputs'
         ]);
 
         //dd($main_row->toArray());
 
-        $row1 = $main_row->component('ui.row', [
+        $row1 = $card->body->component('ui.row', [
             'attributes' => [
                 'class' => [
                     'row' => true
@@ -282,21 +272,76 @@ class ComponentsController extends Controller
                 ]
             ]
         ];
-        $row1->component('form.input', [
-            'options' => [
-                'type' => 'text',
-                'label' => 'Celular',
-                'input.name' => 'customerMobile',
-                'input.placeholder' => '(+52) XXXXXXXXXX',
-                'input.required' => true,
-                'input.mask.cleave' => [
-                    'type' => 'phone',
-                    'phoneregioncode' => 'MX',
-                    'prefix' => '+52 '
-                ] //TODO: CLEAVE INTEGRATION  https://github.com/nosir/cleave.js https://github.com/nosir/cleave.js/blob/master/doc/options.md
-            ]
+        $row1->componentInDiv(['attributes' => [
+            'class' => 'mb-3'
+        ]],[[
+            'path' => 'form.input',
+            'attributes' => [
+                'options' => [
+                    'type' => 'text',
+                    'label' => 'Celular',
+                    'input.name' => 'customerMobile',
+                    'input.placeholder' => '(+52) XXXXXXXXXX',
+                    'input.required' => true,
+                    'input.mask.cleave' => [
+                        'type' => 'phone',
+                        'phoneregioncode' => 'MX',
+                        'prefix' => '+52 '
+                    ] //TODO: CLEAVE INTEGRATION  https://github.com/nosir/cleave.js https://github.com/nosir/cleave.js/blob/master/doc/options.md
+                ]
+            ]]
         ]);
 
+
+        $row1->componentInDiv(['attributes' => [
+                'class' => 'mb-3'
+            ]
+        ],[[
+            'path' => 'form.input',
+            'attributes' => [
+                        'options' => [
+                            'type' => 'text',
+                            'label' => 'Nombre',
+                            'input.name' => 'customerName',
+                            'input.placeholder' => 'Ingresa el nombre del cliente',
+                            'input.required' => true,
+                        ]
+            ]]
+        ]);
+
+        $row1->componentInDiv(['attributes' => [
+            'class' => 'mb-3'
+        ]
+        ],[[
+            'path' => 'form.input',
+            'attributes' => [
+                'options' => [
+                    'type' => 'text',
+                    'label' => 'Apellido',
+                    'input.name' => 'customerLastName',
+                    'input.placeholder' => 'Ingresa el apellido del cliente',
+                    'input.required' => true,
+                ]
+            ]]
+        ]);
+
+        $row1->componentInDiv(['attributes' => [
+            'class' => 'mb-3'
+        ]
+        ],[[
+            'path' => 'form.input',
+            'attributes' => [
+                'options' => [
+                    'type' => 'text',
+                    'label' => 'Correo Electrónico',
+                    'input.name' => 'customerEmail',
+                    'input.placeholder' => 'Ingresa el correo electrónico del cliente',
+                    'input.required' => true
+                ]
+            ]]
+        ]);
+
+        //
         return view('uxmal::master-default', [
             'uxmal_data' => $uxmal->toArray()
         ])->extends('uxmal::layout.master');
