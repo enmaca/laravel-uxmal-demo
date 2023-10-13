@@ -188,30 +188,105 @@ class ComponentsFormsController extends Controller
     {
         $uxmal = new \Enmaca\LaravelUxmal\Uxmal();
 
-        $row_col_12 = $uxmal->component('ui.row', ['attributes' => ['class' => ['col_12' => true]]]);
-
-        $card = $row_col_12->component('ui.card', [
-            'header' => [
-                'title' => 'Buttons'
+        $row_col_12 = $uxmal->component('ui.row', [
+            'attributes' => [
+                'class' => [
+                    'col_12' => true
+                ]
             ]
         ]);
 
-        $card->body->component('ui.row', [
-            'attributes' => [
+        $card = $row_col_12->component('ui.card', [
+            'header' => [
                 'class' => [
-                    'col-12' => true,
-                    'mb-5' => true
-                ]
-            ],
-            'slot' => 'Inputs'
+                    'mb-3' => true
+                ],
+                'title' => 'Inputs'
+            ]
         ]);
+
+        //dd($main_row->toArray());
 
         $row1 = $card->body->component('ui.row', [
-
+            'attributes' => [
+                'class' => [
+                    'row' => true,
+                    'mb-3' => true
+                ]
+            ]
         ]);
 
-        $row1->component('form.input', []);
 
+        $row1->componentsInDiv(['attributes' => [
+            'class' => 'mb-3'
+        ]],[[
+            'path' => 'form.input',
+            'attributes' => [
+                'options' => [
+                    'type' => 'text',
+                    'label' => 'Celular',
+                    'input.name' => 'customerMobile',
+                    'input.placeholder' => '(+52) XXXXXXXXXX',
+                    'input.required' => true,
+                    'input.mask.cleave' => [
+                        'type' => 'phone',
+                        'phoneregioncode' => 'MX',
+                        'prefix' => '+52 '
+                    ] //TODO: CLEAVE INTEGRATION  https://github.com/nosir/cleave.js https://github.com/nosir/cleave.js/blob/master/doc/options.md
+                ]
+            ]]
+        ]);
+
+
+        $row1->componentsInDiv(['attributes' => [
+                'class' => 'mb-3'
+            ]
+        ],[[
+            'path' => 'form.input',
+            'attributes' => [
+                        'options' => [
+                            'type' => 'text',
+                            'label' => 'Nombre',
+                            'input.name' => 'customerName',
+                            'input.placeholder' => 'Ingresa el nombre del cliente',
+                            'input.required' => true,
+                        ]
+            ]]
+        ]);
+
+        $row1->componentsInDiv(['attributes' => [
+            'class' => 'mb-3'
+        ]
+        ],[[
+            'path' => 'form.input',
+            'attributes' => [
+                'options' => [
+                    'type' => 'text',
+                    'label' => 'Apellido',
+                    'input.name' => 'customerLastName',
+                    'input.placeholder' => 'Ingresa el apellido del cliente',
+                    'input.required' => true,
+                ]
+            ]]
+        ]);
+
+        $row1->componentsInDiv(['attributes' => [
+            'class' => 'mb-3'
+        ]
+        ],[[
+            'path' => 'form.input',
+            'attributes' => [
+                'options' => [
+                    'type' => 'text',
+                    'label' => 'Correo Electrónico',
+                    'input.name' => 'customerEmail',
+                    'input.placeholder' => 'Ingresa el correo electrónico del cliente',
+                    'input.required' => true
+                ]
+            ]]
+        ]);
+
+        //
         return view('uxmal::master-default', [
             'uxmal_data' => $uxmal->toArray()
         ])->extends('uxmal::layout.master');
