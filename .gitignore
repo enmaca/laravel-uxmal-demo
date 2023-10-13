@@ -24,3 +24,4 @@ Homestead.json
 /public/build/
 /public/enmaca/
 /.idea
+composer.lock
