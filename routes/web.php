@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [ \App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/components', [ \App\Http\Controllers\ComponentsController::class, 'index'])->name('components');
-Route::get('/components/buttons', [ \App\Http\Controllers\ComponentsController::class, 'buttons'])->name('components_buttons');
-Route::get('/components/inputs', [ \App\Http\Controllers\ComponentsController::class, 'inputs'])->name('components_inputs');
+Route::get('/components/forms', [ \App\Http\Controllers\ComponentsFormsController::class, 'index'])->name('components_forms');
+Route::get('/components/forms/buttons', [ \App\Http\Controllers\ComponentsFormsController::class, 'buttons'])->name('components_forms_buttons');
+Route::get('/components/forms/inputs', [ \App\Http\Controllers\ComponentsFormsController::class, 'inputs'])->name('components_forms_inputs');
+Route::get('/components/ui/card', [ \App\Http\Controllers\ComponentsUiController::class, 'card'])->name('components_ui_card');
+Route::get('/components/ui/modal', [ \App\Http\Controllers\ComponentsUiController::class, 'modal'])->name('components_ui_modal');
+Route::get('/components/ui/listjs', [ \App\Http\Controllers\ComponentsUiController::class, 'listjs'])->name('components_ui_listjs');

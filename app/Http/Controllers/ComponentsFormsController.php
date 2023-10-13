@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ComponentsController extends Controller
+class ComponentsFormsController extends Controller
 {
     //
 
@@ -198,6 +198,9 @@ class ComponentsController extends Controller
 
         $card = $row_col_12->component('ui.card', [
             'header' => [
+                'class' => [
+                    'mb-3' => true
+                ],
                 'title' => 'Inputs'
             ]
         ]);
@@ -207,72 +210,14 @@ class ComponentsController extends Controller
         $row1 = $card->body->component('ui.row', [
             'attributes' => [
                 'class' => [
-                    'row' => true
+                    'row' => true,
+                    'mb-3' => true
                 ]
             ]
         ]);
 
-        $demo = [
-            'row' => [
-                'class' => [
-                    'col-6'
-                ],
-                'elements' => [
-                    [
-                        'livewire' => 'client.search.select'
-                    ],
-                    [
-                        'uxmal' => 'input',
-                        'data' => [
-                            'field' => [
-                                'type' => 'text',
-                                'name' => 'customerMobile',
-                                'label' => 'Celular',
-                                'placeholder' => 'Ingresa Número de Celular',
-                                'required' => true
-                            ]
-                        ]
-                    ],
-                    [
-                        'uxmal' => 'input',
-                        'data' => [
-                            'field' => [
-                                'type' => 'text',
-                                'name' => 'customerName',
-                                'label' => 'Nombre',
-                                'placeholder' => 'Ingresa el Nombre',
-                                'required' => true
-                            ]
-                        ]
-                    ],
-                    [
-                        'uxmal' => 'input',
-                        'data' => [
-                            'field' => [
-                                'type' => 'text',
-                                'name' => 'customerLastName',
-                                'label' => 'Apellido',
-                                'placeholder' => 'Ingresa el Apellido',
-                                'required' => true
-                            ]
-                        ]
-                    ],
-                    [
-                        'uxmal' => 'input',
-                        'data' => [
-                            'field' => [
-                                'type' => 'text',
-                                'name' => 'customerEmail',
-                                'label' => 'Correo Electrónico',
-                                'placeholder' => 'Ingresa el Correo Electrónico',
-                                'required' => true
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ];
-        $row1->componentInDiv(['attributes' => [
+
+        $row1->componentsInDiv(['attributes' => [
             'class' => 'mb-3'
         ]],[[
             'path' => 'form.input',
@@ -293,7 +238,7 @@ class ComponentsController extends Controller
         ]);
 
 
-        $row1->componentInDiv(['attributes' => [
+        $row1->componentsInDiv(['attributes' => [
                 'class' => 'mb-3'
             ]
         ],[[
@@ -325,7 +270,7 @@ class ComponentsController extends Controller
             ]]
         ]);
 
-        $row1->componentInDiv(['attributes' => [
+        $row1->componentsInDiv(['attributes' => [
             'class' => 'mb-3'
         ]
         ],[[

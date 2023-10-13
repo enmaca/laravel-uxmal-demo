@@ -11,16 +11,31 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function __construct(){
-    $menu = [
+    public function __construct()
+    {
+        $menu = [
             'Componentes (Form)' => [
                 [
                     'name' => 'Botones',
-                    'href' => route('components_buttons')
+                    'href' => route('components_forms_buttons')
                 ],
                 [
                     'name' => 'Inputs',
-                    'href' => route('components_inputs')
+                    'href' => route('components_forms_inputs')
+                ]
+            ],
+            'Componentes (UI)' => [
+                [
+                    'name' => 'Card',
+                    'href' => route('components_ui_card')
+                ],
+                [
+                    'name' => 'Modal',
+                    'href' => route('components_ui_modal')
+                ],
+                [
+                    'name' => 'ListJS',
+                    'href' => route('components_ui_listjs')
                 ]
             ]
         ];
