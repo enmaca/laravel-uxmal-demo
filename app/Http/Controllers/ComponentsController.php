@@ -289,7 +289,11 @@ class ComponentsController extends Controller
                 'input.name' => 'customerMobile',
                 'input.placeholder' => '(+52) XXXXXXXXXX',
                 'input.required' => true,
-                'mask' => 'phone' //TODO: CLEAVE INTEGRATION  https://github.com/nosir/cleave.js
+                'input.mask.cleave' => [
+                    'type' => 'phone',
+                    'phoneregioncode' => 'MX',
+                    'prefix' => '+52 '
+                ] //TODO: CLEAVE INTEGRATION  https://github.com/nosir/cleave.js https://github.com/nosir/cleave.js/blob/master/doc/options.md
             ]
         ]);
 
