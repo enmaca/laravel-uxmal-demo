@@ -103,9 +103,7 @@ class ComponentsFormsController extends Controller
         $row->component('form.button', [
             'options' => [
                 'type' => $type,
-                'style' => 'primary'
-            ],
-            'attributes' => [
+                'style' => 'primary',
                 'onclick' => 'console.log("' . $type . '-primary clicked!")'
             ],
             'type' => 'button',
@@ -115,9 +113,7 @@ class ComponentsFormsController extends Controller
         $row->component('form.button', [
             'options' => [
                 'type' => $type,
-                'style' => 'secondary'
-            ],
-            'attributes' => [
+                'style' => 'secondary',
                 'onclick' => 'console.log("' . $type . '-secondary clicked!")'
             ],
             'type' => 'button',
@@ -127,9 +123,7 @@ class ComponentsFormsController extends Controller
         $row->component('form.button', [
             'options' => [
                 'type' => $type,
-                'style' => 'success'
-            ],
-            'attributes' => [
+                'style' => 'success',
                 'onclick' => 'console.log("' . $type . '-success clicked!")'
             ],
             'type' => 'button',
@@ -139,9 +133,7 @@ class ComponentsFormsController extends Controller
         $row->component('form.button', [
             'options' => [
                 'type' => $type,
-                'style' => 'info'
-            ],
-            'attributes' => [
+                'style' => 'info',
                 'onclick' => 'console.log("' . $type . '-info clicked!")'
             ],
             'type' => 'button',
@@ -151,9 +143,7 @@ class ComponentsFormsController extends Controller
         $row->component('form.button', [
             'options' => [
                 'type' => $type,
-                'style' => 'warning'
-            ],
-            'attributes' => [
+                'style' => 'warning',
                 'onclick' => 'console.log("' . $type . '-warning clicked!")'
             ],
             'type' => 'button',
@@ -162,9 +152,7 @@ class ComponentsFormsController extends Controller
         $row->component('form.button', [
             'options' => [
                 'type' => $type,
-                'style' => 'danger'
-            ],
-            'attributes' => [
+                'style' => 'danger',
                 'onclick' => 'console.log("' . $type . '-danger clicked!")'
             ],
             'type' => 'button',
@@ -173,9 +161,7 @@ class ComponentsFormsController extends Controller
         $row->component('form.button', [
             'options' => [
                 'type' => $type,
-                'style' => 'dark'
-            ],
-            'attributes' => [
+                'style' => 'dark',
                 'onclick' => 'console.log("' . $type . '-dark clicked!")'
             ],
             'type' => 'button',
@@ -219,7 +205,7 @@ class ComponentsFormsController extends Controller
 
         $row1->componentsInDiv(['attributes' => [
             'class' => 'mb-3'
-        ]],[[
+        ]], [[
             'path' => 'form.input',
             'attributes' => [
                 'options' => [
@@ -239,25 +225,25 @@ class ComponentsFormsController extends Controller
 
 
         $row1->componentsInDiv(['attributes' => [
-                'class' => 'mb-3'
-            ]
-        ],[[
+            'class' => 'mb-3'
+        ]
+        ], [[
             'path' => 'form.input',
             'attributes' => [
-                        'options' => [
-                            'type' => 'text',
-                            'label' => 'Nombre',
-                            'input.name' => 'customerName',
-                            'input.placeholder' => 'Ingresa el nombre del cliente',
-                            'input.required' => true,
-                        ]
+                'options' => [
+                    'type' => 'text',
+                    'label' => 'Nombre',
+                    'input.name' => 'customerName',
+                    'input.placeholder' => 'Ingresa el nombre del cliente',
+                    'input.required' => true,
+                ]
             ]]
         ]);
 
         $row1->componentsInDiv(['attributes' => [
             'class' => 'mb-3'
         ]
-        ],[[
+        ], [[
             'path' => 'form.input',
             'attributes' => [
                 'options' => [
@@ -273,7 +259,7 @@ class ComponentsFormsController extends Controller
         $row1->componentsInDiv(['attributes' => [
             'class' => 'mb-3'
         ]
-        ],[[
+        ], [[
             'path' => 'form.input',
             'attributes' => [
                 'options' => [

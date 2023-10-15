@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class ComponentsUiController extends Controller
@@ -119,7 +120,7 @@ class ComponentsUiController extends Controller
     {
         $uxmal = new \Enmaca\LaravelUxmal\Uxmal();
 
-        $row = $uxmal->component('ui.row', [
+        $main_row = $uxmal->component('ui.row', [
             'attributes' => [
                 'class' => [
                     'row' => true
@@ -208,26 +209,28 @@ class ComponentsUiController extends Controller
             ]]
         ]);
 
-        $uxmal3 =  new \Enmaca\LaravelUxmal\Uxmal();
-        $modal = $uxmal3->component('ui.modal', [
+        $modal = $uxmal->component('ui.modal', [
             'options' => [
                 'title' => 'Modal Title',
                 'body' => $row_col_12,
-                'save' => [
+                'saveBtn' => [
                     'onclick' => 'console.log("clicked")'
                 ]
             ]
         ]);
 
 
-        $card = $row->component('ui.card', [
+        $card = $main_row->component('ui.card', [
             'options' => [
                 'header' => 'HeaderTitle',
-                'body' => $modal,
+                'body' => $modal->getShowButton([
+                    'options' => [
+                        'label' => 'Open'
+                    ]
+                ]),
                 'footer' => 'FooterTitle'
             ]
         ]);
-
 
         return view('uxmal::master-default', [
             'uxmal_data' => $uxmal->toArray()
@@ -238,6 +241,83 @@ class ComponentsUiController extends Controller
     public function listjs()
     {
         $uxmal = new \Enmaca\LaravelUxmal\Uxmal();
+
+        $main_row = $uxmal->component('ui.row', [
+            'attributes' => [
+                'class' => [
+                    'row' => true
+                ]
+            ]
+        ]);
+
+        $listjs = $main_row->component('ui.listjs');
+
+        $listjs->setColumns([
+            'id' => [
+                'tbhContent' => 'checkbox',
+                'type' => 'primaryKey',
+                'handler' => \App\Support\Order\OrderIdCheckbox::class
+            ],
+            'code' => [
+                'tbhContent' => 'Código de pedido'
+            ],
+            'customer.name' => [
+                'tbhContent' => 'Cliente',
+            ],
+            'status' => [
+                'tbhContent' => 'Estatus',
+                'handler' => \App\Support\Order\OrderStatus::class
+            ],
+            'delivery_date' => [
+                'tbhContent' => 'Fecha de entrega',
+                'handler' => \App\Support\Order\OrderDeliverDate::class
+            ],
+            'shipment_status' => [
+                'tbhContent' => 'Estatus de envio',
+                'handler' => \App\Support\Order\OrderShipmentStatus::class
+            ],
+            'payment_status' => [
+                'tbhContent' => 'Estatus de pago',
+                'handler' => \App\Support\Order\OrderPaymentStatus::class
+            ],
+            'payment_ammount' => [
+                'tbhContent' => 'Pago',
+                'handler' => \App\Support\Order\OrderPaymentAmmount::class
+            ]
+        ]);
+
+
+        $listjs->Model(Order::class)
+            ->with([
+                'customer' => function ($query) {
+                    $query->select([
+                        'id',
+                        'name'
+                    ]);
+                }])
+            ->select([
+                'id',
+                'customer_id',
+                'code',
+                'status',
+                'delivery_date',
+                'shipment_status',
+                'payment_status',
+                'payment_ammount']);
+        // ->whereIn('id', [1,2,3,4,5]);
+
+        $listjs->setPagination(10);
+
+        $listjs->setSearch(true, ['placeholder' => 'Buscar en pedidos...']);
+
+        $card = $main_row->component('ui.card', [
+            'options' => [
+                'header' => 'HeaderTitle',
+                'body' => $listjs,
+                'footer' => 'FooterTitle'
+            ]
+        ]);
+
         return view('uxmal::master-default', [
             'uxmal_data' => $uxmal->toArray()
         ])->extends('uxmal::layout.master');
