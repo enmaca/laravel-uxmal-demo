@@ -278,6 +278,7 @@ class ComponentsFormsController extends Controller
         ])->extends('uxmal::layout.master');
     }
 
+
     public function index()
     {
 
