@@ -20,3 +20,4 @@ Route::get('/components/forms/inputs', [ \App\Http\Controllers\ComponentsFormsCo
 Route::get('/components/ui/card', [ \App\Http\Controllers\ComponentsUiController::class, 'card'])->name('components_ui_card');
 Route::get('/components/ui/modal', [ \App\Http\Controllers\ComponentsUiController::class, 'modal'])->name('components_ui_modal');
 Route::get('/components/ui/listjs', [ \App\Http\Controllers\ComponentsUiController::class, 'listjs'])->name('components_ui_listjs');
+Route::get('/test', [ \App\Http\Controllers\HomeController::class, 'test'])->name('home');
