@@ -12,9 +12,7 @@ class ComponentsFormsController extends Controller
     {
         $uxmal = new \Enmaca\LaravelUxmal\Uxmal();
 
-        $main_row = $uxmal::component('ui.row', ['options' => [
-            'row.append-attributes' => ['class' => 'col-lg-12'],
-        ]]);
+        $main_row = $uxmal::component('ui.row', ['options' => ['row.append-attributes' => ['class' => 'gy-4']]]);
 
         $this->createRowButtons($main_row, 'normal', 'Normal Buttons');
         $this->createRowButtons($main_row, 'outline', 'Outline Buttons');
@@ -69,14 +67,9 @@ class ComponentsFormsController extends Controller
         $syntax = <<<'HIGHLIGHT'
 <pre><code class="language-php">&lt;?php
     $uxmal = new \Enmaca\LaravelUxmal\Uxmal;
-    $row = $uxmal::component('ui.row', [
-        'options' => [
-            'row.slot' => $slot,
-            'row.append-attributes' => ['class' => 'pb-4'],
-        ],
-    ]);
 
-    $row->component('form.button', [
+    $main_row = $uxmal::component('ui.row', ['options' => ['row.append-attributes' => ['class' => 'gy-4']]]);
+    $main_row->component('form.button', [
         'options' => [
             'button.type' => 'normal', // 'normal', 'outline', 'ghost', 'soft', 'gradient', 'animation', 'border', 'darken', 'rounded-pill'
             'button.style' => 'primary', // 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'dark', 'light'
@@ -210,107 +203,103 @@ HIGHLIGHT;
 
     public function inputs()
     {
-        $uxmal = new \Enmaca\LaravelUxmal\Uxmal();
+        $uxmal = new \Enmaca\LaravelUxmal\Uxmal;
 
-        $row_col_12 = $uxmal->component('ui.row', [
-            'attributes' => [
-                'class' => [
-                    'col_12' => true
+        $row = $uxmal::component('ui.row', ['options' => ['row.append-attributes' => ['class' => 'gy-4']]]);
+        $row->componentsInDiv(['options' => ['row.append-attributes' => ['class' => 'mb-3']]], [
+            [
+                'path' => 'form.input',
+                'attributes' => [
+                    'options' => [
+                        'input.type' => 'text',
+                        'input.label' => 'Celular',
+                        'input.name' => 'customerMobile',
+                        'input.placeholder' => '(+52) XXXXXXXXXX',
+                        'input.required' => true,
+                        'input.mask.cleave' => [
+                            'type' => 'phone',
+                            'phoneregioncode' => 'MX',
+                            'prefix' => '+52 '
+                        ] //TODO: CLEAVE INTEGRATION  https://github.com/nosir/cleave.js https://github.com/nosir/cleave.js/blob/master/doc/options.md
+                    ]
                 ]
-            ]
+            ],
         ]);
 
-        $card = $row_col_12->component('ui.card', [
-            'header' => [
-                'class' => [
-                    'mb-3' => true
+        $row->componentsInDiv(['options' => ['row.append-attributes' => ['class' => 'mb-3']]], [
+            [
+                'path' => 'form.input',
+                'attributes' => [
+                    'options' => [
+                        'input.type' => 'text',
+                        'input.label' => 'Nombre',
+                        'input.name' => 'customerName',
+                        'input.placeholder' => 'Ingresa el nombre del cliente',
+                        'input.required' => true,
+                    ]
+                ]
+            ],
+        ]);
+
+        $row->componentsInDiv(['options' => ['row.append-attributes' => ['class' => 'mb-3']]], [
+            [
+                'path' => 'form.input',
+                'attributes' => [
+                    'options' => [
+                        'input.type' => 'text',
+                        'input.label' => 'Apellido',
+                        'input.name' => 'customerLastName',
+                        'input.placeholder' => 'Ingresa el apellido del cliente',
+                        'input.required' => true,
+                    ],
                 ],
-                'title' => 'Inputs'
             ]
         ]);
 
-        //dd($main_row->toArray());
-
-        $row1 = $card->body->component('ui.row', [
-            'attributes' => [
-                'class' => [
-                    'row' => true,
-                    'mb-3' => true
-                ]
+        $row->componentsInDiv(['options' => ['row.append-attributes' => ['mb-3']]], [
+            [
+                'path' => 'form.input',
+                'attributes' => [
+                    'options' => [
+                        'input.type' => 'text',
+                        'input.label' => 'Correo electrónico',
+                        'input.name' => 'customerEmail',
+                        'input.placeholder' => 'Ingresa el correo electrónico del cliente',
+                        'input.required' => true,
+                    ],
+                ],
             ]
         ]);
 
+        $uxmal->component('ui.row');
+        $uxmal->component('ui.card', ['options' => [
+            'card.header' => 'Inputs',
+            'card.body' => $row,
+            'card.footer' => null,
+        ]]);
 
-        $row1->componentsInDiv(['attributes' => [
-            'class' => 'mb-3'
-        ]], [[
-            'path' => 'form.input',
-            'attributes' => [
-                'options' => [
-                    'type' => 'text',
-                    'label' => 'Celular',
-                    'input.name' => 'customerMobile',
-                    'input.placeholder' => '(+52) XXXXXXXXXX',
-                    'input.required' => true,
-                    'input.mask.cleave' => [
-                        'type' => 'phone',
-                        'phoneregioncode' => 'MX',
-                        'prefix' => '+52 '
-                    ] //TODO: CLEAVE INTEGRATION  https://github.com/nosir/cleave.js https://github.com/nosir/cleave.js/blob/master/doc/options.md
-                ]
-            ]]
-        ]);
+        $syntax = <<<'HIGHLIGHT'
+<pre><code class="language-php">&lt;?php
+    $uxmal = new \Enmaca\LaravelUxmal\Uxmal;
 
-
-        $row1->componentsInDiv(['attributes' => [
-            'class' => 'mb-3'
+    $row = $uxmal::component('ui.row', ['options' => ['row.append-attributes' => ['class' => 'gy-4']]]);
+    $row->component('form.input', [
+        'options' => [
+            'input.type' => 'text', // 'text', 'number', 'checkbox', 'hidden'
+            'input.label' => 'Nombre',
+            'input.name' => 'customerName',
+            'input.placeholder' => 'Ingresa el nombre del cliente',
+            'input.required' => true, // true, false
         ]
-        ], [[
-            'path' => 'form.input',
-            'attributes' => [
-                'options' => [
-                    'type' => 'text',
-                    'label' => 'Nombre',
-                    'input.name' => 'customerName',
-                    'input.placeholder' => 'Ingresa el nombre del cliente',
-                    'input.required' => true,
-                ]
-            ]]
-        ]);
+    ]);
+</code></pre>
+HIGHLIGHT;
+        $uxmal->component('ui.card', ['options' => [
+            'card.header' => 'Código de ejemplo',
+            'card.body' => $syntax,
+            'card.footer' => null,
+        ]]);
 
-        $row1->componentsInDiv(['attributes' => [
-            'class' => 'mb-3'
-        ]
-        ], [[
-            'path' => 'form.input',
-            'attributes' => [
-                'options' => [
-                    'type' => 'text',
-                    'label' => 'Apellido',
-                    'input.name' => 'customerLastName',
-                    'input.placeholder' => 'Ingresa el apellido del cliente',
-                    'input.required' => true,
-                ]
-            ]]
-        ]);
-
-        $row1->componentsInDiv(['attributes' => [
-            'class' => 'mb-3'
-        ]
-        ], [[
-            'path' => 'form.input',
-            'attributes' => [
-                'options' => [
-                    'type' => 'text',
-                    'label' => 'Correo Electrónico',
-                    'input.name' => 'customerEmail',
-                    'input.placeholder' => 'Ingresa el correo electrónico del cliente',
-                    'input.required' => true
-                ]
-            ]]
-        ]);
-
-        //
         return view('uxmal::master-default', [
             'uxmal_data' => $uxmal->toArray()
         ])->extends('uxmal::layout.master');
