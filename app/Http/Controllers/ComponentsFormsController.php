@@ -27,9 +27,43 @@ class ComponentsFormsController extends Controller
         $this->createRowButtons($main_row, 'darken', 'Darken Buttons');
 
         $uxmal->component('ui.card', ['options' => [
-            'card.header' => 'Buttons',
+            'card.header' => 'Estilos de botones',
             'card.body' => $main_row,
             'card.footer' => null,
+        ]]);
+
+        $main_row = $uxmal::component('ui.row', ['options' => [
+            'row.append-attributes' => ['class' => ''],
+        ]]);
+        $main_row->component('form.button', [
+            'options' => [
+                'button.type' => 'normal',
+                'button.style' => 'primary',
+                'button.name' => 'button-name',
+                'button.label' => 'Botón',
+                'button.size' => 'sm',
+            ]
+        ]);
+        $main_row->component('form.button', [
+            'options' => [
+                'button.type' => 'normal',
+                'button.style' => 'primary',
+                'button.name' => 'button-name',
+                'button.label' => 'Botón',
+            ]
+        ]);
+        $main_row->component('form.button', ['options' => [
+            'button.type' => 'normal',
+            'button.style' => 'primary',
+            'button.name' => 'button-name',
+            'button.label' => 'Botón',
+            'button.size' => 'lg',
+        ]]);
+
+        $uxmal->component('ui.card', ['options' => [
+            'card.header' => 'Tamaños de botones',
+            'card.body' => $main_row,
+            'card.footer' => '',
         ]]);
 
         $syntax = <<<'HIGHLIGHT'
@@ -44,11 +78,12 @@ class ComponentsFormsController extends Controller
 
     $row->component('form.button', [
         'options' => [
-            'button.type' => 'normal',
-            'button.style' => 'primary',
+            'button.type' => 'normal', // 'normal', 'outline', 'ghost', 'soft', 'gradient', 'animation', 'border', 'darken', 'rounded-pill'
+            'button.style' => 'primary', // 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'dark', 'light'
             'button.onclick' => 'console.log("clicked!")',
             'button.name' => 'button-name',
             'button.label' => 'Botón',
+            'button.size' => 'sm', // 'lg', 'sm'
         ],
     ]);
 </code></pre>
