@@ -160,6 +160,17 @@ HIGHLIGHT;
                 ...($type === 'animation' ? ['button.animation.text' => 'Texto'] : [])
             ],
         ]);
+
+        $row->component('form.button', [
+            'options' => [
+                'button.type' => $type,
+                'button.style' => 'light',
+                'button.onclick' => 'console.log("' . $type . '-light clicked!")',
+                'button.name' => 'button-name',
+                'button.label' => 'Botón',
+                ...($type === 'animation' ? ['button.animation.text' => 'Texto'] : [])
+            ],
+        ]);
     }
 
     public function inputs()
