@@ -12,162 +12,154 @@ class ComponentsFormsController extends Controller
     {
         $uxmal = new \Enmaca\LaravelUxmal\Uxmal();
 
-        $row = $uxmal->component('ui.row', [
-            'attributes' => [
-                'class' => [
-                    'row' => true
-                ]
-            ]
-        ]);
+        $main_row = $uxmal::component('ui.row', ['options' => [
+            'row.append-attributes' => ['class' => 'col-lg-12'],
+        ]]);
 
-        $row_col_lg_12 = $row->component('ui.row', [
-            'attributes' => [
-                'class' => [
-                    'col-lg-12' => true
-                ]
-            ]
-        ]);
+        $this->createRowButtons($main_row, 'normal', 'Normal Buttons');
+        $this->createRowButtons($main_row, 'outline', 'Outline Buttons');
+        $this->createRowButtons($main_row, 'rounded-pill', 'Rounded Pill Buttons');
+        $this->createRowButtons($main_row, 'soft', 'Soft Buttons');
+        $this->createRowButtons($main_row, 'ghost', 'Ghost Buttons');
+        $this->createRowButtons($main_row, 'gradient', 'Gradient Buttons');
+        $this->createRowButtons($main_row, 'animation', 'Animation Buttons');
+        $this->createRowButtons($main_row, 'border', 'Border Buttons');
+        $this->createRowButtons($main_row, 'darken', 'Darken Buttons');
 
-        $card = $row_col_lg_12->component('ui.card', [
-            'header' => [
-                'title' => 'Buttons'
-            ]
-        ]);
+        $uxmal->component('ui.card', ['options' => [
+            'card.header' => 'Buttons',
+            'card.body' => $main_row,
+            'card.footer' => null,
+        ]]);
 
-        $card->body->component('ui.row', [
-            'slot' => 'Normal Buttons'
-        ]);
-        $this->createRowButtons($card->body, 'normal');
-        $card->body->component('ui.row', [
-            'slot' => 'Outline Buttons'
-        ]);
-        $this->createRowButtons($card->body, 'outline');
-        // rounded-pill
-        $card->body->component('ui.row', [
-            'slot' => 'Rounded Pill Buttons'
-        ]);
-        $this->createRowButtons($card->body, 'rounded-pill');
-        // soft
-        $card->body->component('ui.row', [
-            'slot' => 'Soft Buttons'
-        ]);
-        $this->createRowButtons($card->body, 'soft');
+        $syntax = <<<'HIGHLIGHT'
+<pre><code class="language-php">&lt;?php
+    $uxmal = new \Enmaca\LaravelUxmal\Uxmal;
+    $row = $uxmal::component('ui.row', [
+        'options' => [
+            'row.slot' => $slot,
+            'row.append-attributes' => ['class' => 'pb-4'],
+        ],
+    ]);
 
-        // gost
-        $card->body->component('ui.row', [
-            'slot' => 'Ghost Buttons'
-        ]);
-        $this->createRowButtons($card->body, 'ghost');
-
-        // gradient
-        $card->body->component('ui.row', [
-            'slot' => 'Gradient Buttons'
-        ]);
-        $this->createRowButtons($card->body, 'gradient');
-
-        // animation
-        $card->body->component('ui.row', [
-            'slot' => 'Animation Buttons'
-        ]);
-        $this->createRowButtons($card->body, 'animation');
-
-        // border
-        $card->body->component('ui.row', [
-            'slot' => 'Border Buttons'
-        ]);
-        $this->createRowButtons($card->body, 'border');
-
-        // darken
-        $card->body->component('ui.row', [
-            'slot' => 'Darken Buttons'
-        ]);
-        $this->createRowButtons($card->body, 'darken');
+    $row->component('form.button', [
+        'options' => [
+            'button.type' => 'normal',
+            'button.style' => 'primary',
+            'button.onclick' => 'console.log("clicked!")',
+            'button.name' => 'button-name',
+            'button.label' => 'Botón',
+        ],
+    ]);
+</code></pre>
+HIGHLIGHT;
+        $uxmal->component('ui.card', ['options' => [
+            'card.header' => 'Código de ejemplo',
+            'card.body' => $syntax,
+            'card.footer' => null,
+        ]]);
 
         return view('uxmal::master-default', [
             'uxmal_data' => $uxmal->toArray()
         ])->extends('uxmal::layout.master');
     }
 
-    public function createRowButtons($uxmal_obj, $type = 'normal')
+    public function createRowButtons($uxmal_obj, $type = 'primary', $slot = '')
     {
+        $row = $uxmal_obj
+            ->component('ui.row', [
+                'options' => [
+                    'row.slot' => $slot,
+                    'row.append-attributes' => ['class' => 'pb-4'],
+                ],
+            ]);
 
-        $row = $uxmal_obj->component('ui.row', [
+
+        $row->component('ui.row', [
             'attributes' => [
                 'class' => [
                     'col-lg-12' => true,
-                    'mb-5' => true
+                    'mb-5' => true,
                 ]
             ]
         ]);
 
         $row->component('form.button', [
             'options' => [
-                'type' => $type,
-                'style' => 'primary',
-                'onclick' => 'console.log("' . $type . '-primary clicked!")'
+                'button.type' => $type,
+                'button.style' => 'primary',
+                'button.onclick' => 'console.log("' . $type . '-primary clicked!")',
+                'button.name' => 'button-name',
+                'button.label' => 'Botón',
+                ...($type === 'animation' ? ['button.animation.text' => 'Texto'] : [])
             ],
-            'type' => 'button',
-            'slot' => $type . '-primary'
         ]);
 
         $row->component('form.button', [
             'options' => [
-                'type' => $type,
-                'style' => 'secondary',
-                'onclick' => 'console.log("' . $type . '-secondary clicked!")'
+                'button.type' => $type,
+                'button.style' => 'secondary',
+                'button.onclick' => 'console.log("' . $type . '-secondary clicked!")',
+                'button.name' => 'button-name',
+                'button.label' => 'Botón',
+                ...($type === 'animation' ? ['button.animation.text' => 'Texto'] : [])
             ],
-            'type' => 'button',
-            'slot' => $type . '-secondary'
         ]);
 
         $row->component('form.button', [
             'options' => [
-                'type' => $type,
-                'style' => 'success',
-                'onclick' => 'console.log("' . $type . '-success clicked!")'
+                'button.type' => $type,
+                'button.style' => 'success',
+                'button.onclick' => 'console.log("' . $type . '-success clicked!")',
+                'button.name' => 'button-name',
+                'button.label' => 'Botón',
+                ...($type === 'animation' ? ['button.animation.text' => 'Texto'] : [])
             ],
-            'type' => 'button',
-            'slot' => $type . '-success'
         ]);
 
         $row->component('form.button', [
             'options' => [
-                'type' => $type,
-                'style' => 'info',
-                'onclick' => 'console.log("' . $type . '-info clicked!")'
+                'button.type' => $type,
+                'button.style' => 'info',
+                'button.onclick' => 'console.log("' . $type . '-info clicked!")',
+                'button.name' => 'button-name',
+                'button.label' => 'Botón',
+                ...($type === 'animation' ? ['button.animation.text' => 'Texto'] : [])
             ],
-            'type' => 'button',
-            'slot' => $type . '-info'
         ]);
 
         $row->component('form.button', [
             'options' => [
-                'type' => $type,
-                'style' => 'warning',
-                'onclick' => 'console.log("' . $type . '-warning clicked!")'
+                'button.type' => $type,
+                'button.style' => 'warning',
+                'button.onclick' => 'console.log("' . $type . '-warning clicked!")',
+                'button.name' => 'button-name',
+                'button.label' => 'Botón',
+                ...($type === 'animation' ? ['button.animation.text' => 'Texto'] : [])
             ],
-            'type' => 'button',
-            'slot' => $type . '-warning'
-        ]);
-        $row->component('form.button', [
-            'options' => [
-                'type' => $type,
-                'style' => 'danger',
-                'onclick' => 'console.log("' . $type . '-danger clicked!")'
-            ],
-            'type' => 'button',
-            'slot' => $type . '-danger'
-        ]);
-        $row->component('form.button', [
-            'options' => [
-                'type' => $type,
-                'style' => 'dark',
-                'onclick' => 'console.log("' . $type . '-dark clicked!")'
-            ],
-            'type' => 'button',
-            'slot' => $type . '-dark'
         ]);
 
+        $row->component('form.button', [
+            'options' => [
+                'button.type' => $type,
+                'button.style' => 'danger',
+                'button.onclick' => 'console.log("' . $type . '-danger clicked!")',
+                'button.name' => 'button-name',
+                'button.label' => 'Botón',
+                ...($type === 'animation' ? ['button.animation.text' => 'Texto'] : [])
+            ],
+        ]);
+
+        $row->component('form.button', [
+            'options' => [
+                'button.type' => $type,
+                'button.style' => 'dark',
+                'button.onclick' => 'console.log("' . $type . '-dark clicked!")',
+                'button.name' => 'button-name',
+                'button.label' => 'Botón',
+                ...($type === 'animation' ? ['button.animation.text' => 'Texto'] : [])
+            ],
+        ]);
     }
 
     public function inputs()
