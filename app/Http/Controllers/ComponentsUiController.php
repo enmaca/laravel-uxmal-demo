@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ComponentsUiController extends Controller
@@ -140,6 +140,53 @@ HIGHLIGHT;
         ])->extends('uxmal::layout.master');
     }
 
+    public function table()
+    {
+        $uxmal = new \Enmaca\LaravelUxmal\Uxmal;
+        $table = $uxmal->component('ui.table', ['options' => [
+            'table.data.model' => User::class,
+            'table.name' => 'tableDemo',
+            'table.columns' => [
+                'id' => [
+                    'type' => 'primaryKey',
+                    'tbhContent' => 'ID',
+                ],
+                'name' => ['tbhContent' => 'Nombre'],
+                'email' => ['tbhContent' => 'Correo electrónico'],
+            ],
+        ]]);
+        $table->DataQuery()->select(['id', 'name', 'email']);
+
+
+        $syntax = <<<'HIGHLIGHT'
+<pre><code class="language-php">&lt;?php
+    $uxmal = new \Enmaca\LaravelUxmal\Uxmal;
+    $table = $uxmal->component('ui.table', ['options' => [
+        'table.data.model' => User::class,
+        'table.name' => 'tableDemo',
+        'table.columns' => [
+            'id' => [
+                'type' => 'primaryKey',
+                'tbhContent' => 'ID',
+            ],
+            'name' => ['tbhContent' => 'Nombre'],
+            'email' => ['tbhContent' => 'Correo electrónico'],
+        ],
+    ]]);
+    $table->DataQuery()->select(['id', 'name', 'email']);
+</code></pre>
+HIGHLIGHT;
+        $uxmal->component('ui.card', ['options' => [
+            'card.header' => 'Código de ejemplo',
+            'card.body' => $syntax,
+            'card.footer' => null,
+        ]]);
+
+
+        return view('uxmal::master-default', [
+            'uxmal_data' => $uxmal->toArray(),
+        ]);
+    }
 
     public function listjs()
     {

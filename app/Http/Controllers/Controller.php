@@ -34,6 +34,10 @@ class Controller extends BaseController
                     'href' => route('components_ui_modal')
                 ],
                 [
+                    'name' => 'Table',
+                    'href' => route('components_ui_table')
+                ],
+                [
                     'name' => 'ListJS',
                     'href' => route('components_ui_listjs')
                 ]

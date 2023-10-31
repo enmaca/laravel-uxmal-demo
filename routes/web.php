@@ -19,5 +19,6 @@ Route::get('/components/forms/buttons', [ \App\Http\Controllers\ComponentsFormsC
 Route::get('/components/forms/inputs', [ \App\Http\Controllers\ComponentsFormsController::class, 'inputs'])->name('components_forms_inputs');
 Route::get('/components/ui/card', [ \App\Http\Controllers\ComponentsUiController::class, 'card'])->name('components_ui_card');
 Route::get('/components/ui/modal', [ \App\Http\Controllers\ComponentsUiController::class, 'modal'])->name('components_ui_modal');
+Route::get('/components/ui/table', [ \App\Http\Controllers\ComponentsUiController::class, 'table'])->name('components_ui_table');
 Route::get('/components/ui/listjs', [ \App\Http\Controllers\ComponentsUiController::class, 'listjs'])->name('components_ui_listjs');
 Route::get('/test', [ \App\Http\Controllers\HomeController::class, 'test'])->name('home');
