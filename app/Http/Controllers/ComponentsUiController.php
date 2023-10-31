@@ -67,119 +67,73 @@ HIGHLIGHT;
 
     public function modal()
     {
-        $uxmal = new \Enmaca\LaravelUxmal\Uxmal();
+        $uxmal = new \Enmaca\LaravelUxmal\Uxmal;
 
-        $main_row = $uxmal->component('ui.row', [
-            'attributes' => [
-                'class' => [
-                    'row' => true
-                ]
-            ]
-        ]);
-
-        $uxmal2 = new \Enmaca\LaravelUxmal\Uxmal();
-        $row_col_12 = $uxmal2->component('ui.row', [
-            'attributes' => [
-                'class' => [
-                    'col_12' => true
-                ]
-            ]
-        ]);
-
-
-        $form = $row_col_12->component('form');
-
-        $form->componentsInDiv(['attributes' => [
-            'class' => 'mb-3'
-        ]], [[
-            'path' => 'form.input',
-            'attributes' => [
-                'options' => [
-                    'type' => 'text',
-                    'label' => 'Celular',
-                    'input.name' => 'customerMobile',
-                    'input.placeholder' => '(+52) XXXXXXXXXX',
-                    'input.required' => true,
-                    'input.mask.cleave' => [
-                        'type' => 'phone',
-                        'phoneregioncode' => 'MX',
-                        'prefix' => '+52 '
-                    ] //TODO: CLEAVE INTEGRATION  https://github.com/nosir/cleave.js https://github.com/nosir/cleave.js/blob/master/doc/options.md
-                ]
-            ]]
-        ]);
-
-
-        $form->componentsInDiv(['attributes' => [
-            'class' => 'mb-3'
-        ]
-        ], [[
-            'path' => 'form.input',
-            'attributes' => [
-                'options' => [
-                    'type' => 'text',
-                    'label' => 'Nombre',
-                    'input.name' => 'customerName',
-                    'input.placeholder' => 'Ingresa el nombre del cliente',
-                    'input.required' => true,
-                ]
-            ]]
-        ]);
-
-        $form->componentsInDiv(['attributes' => [
-            'class' => 'mb-3'
-        ]
-        ], [[
-            'path' => 'form.input',
-            'attributes' => [
-                'options' => [
-                    'type' => 'text',
-                    'label' => 'Apellido',
-                    'input.name' => 'customerLastName',
-                    'input.placeholder' => 'Ingresa el apellido del cliente',
-                    'input.required' => true,
-                ]
-            ]]
-        ]);
-
-        $form->componentsInDiv(['attributes' => [
-            'class' => 'mb-3'
-        ]
-        ], [[
-            'path' => 'form.input',
-            'attributes' => [
-                'options' => [
-                    'type' => 'text',
-                    'label' => 'Correo Electrónico',
-                    'input.name' => 'customerEmail',
-                    'input.placeholder' => 'Ingresa el correo electrónico del cliente',
-                    'input.required' => true
-                ]
-            ]]
-        ]);
-
+        $main_row = $uxmal->component('ui.row', ['options' => ['row.append-attributes' => ['class' => 'gy-4']]]);
         $modal = $uxmal->component('ui.modal', [
             'options' => [
-                'title' => 'Modal Title',
-                'body' => $row_col_12,
-                'saveBtn' => [
-                    'onclick' => 'console.log("clicked")'
-                ]
+                'modal.name' => 'modalName',
+                'modal.title' => 'Modal Title',
+                'modal.body' => 'Body',
+                'modal.saveBtn.label' => 'Save',
+                'modal.saveBtn.onclick' => 'console.log("click")',
+                'modal.closeBtn.label' => 'Cancel',
+                'modal.closeBtn.onclick' => 'console.log("cancel")',
+                'modal.footer' => 'Footer',
             ]
         ]);
 
-
-        $card = $main_row->component('ui.card', [
+        $main_row->component('ui.card', [
             'options' => [
-                'header' => 'HeaderTitle',
-                'body' => $modal->getShowButton([
+                'card.header' => 'Title',
+                'card.body' => $modal->getShowButton([
                     'options' => [
-                        'label' => 'Open'
+                        'button.name' => 'openModal',
+                        'button.label' => 'Open modal',
                     ]
                 ]),
-                'footer' => 'FooterTitle'
+                'card.footer' => null,
             ]
         ]);
+
+
+        $syntax = <<<'HIGHLIGHT'
+<pre><code class="language-php">&lt;?php
+    $uxmal = new \Enmaca\LaravelUxmal\Uxmal;
+    $main_row = $uxmal->component('ui.row', ['options' => ['row.append-attributes' => ['class' => 'gy-4']]]);
+    $modal = $uxmal->component('ui.modal', [
+        'options' => [
+            'modal.name' => 'modalName',
+            'modal.title' => 'Modal Title',
+            'modal.body' => 'Body',
+            'modal.saveBtn.label' => 'Save',
+            'modal.saveBtn.onclick' => 'console.log("click")',
+            'modal.closeBtn.label' => 'Cancel',
+            'modal.closeBtn.onclick' => 'console.log("cancel")',
+            'modal.footer' => 'Footer',
+        ]
+    ]);
+
+    $main_row->component('ui.card', [
+        'options' => [
+            'card.header' => 'Title',
+            'card.body' => $modal->getShowButton([
+                'options' => [
+                    'button.name' => 'openModal',
+                    'button.label' => 'Open modal',
+                ]
+            ]),
+            'card.footer' => null,
+        ]
+    ]);
+</code></pre>
+HIGHLIGHT;
+        $uxmal->component('ui.card', ['options' => [
+            'card.header' => 'Código de ejemplo',
+            'card.body' => $syntax,
+            'card.footer' => null,
+        ]]);
+
 
         return view('uxmal::master-default', [
             'uxmal_data' => $uxmal->toArray()
