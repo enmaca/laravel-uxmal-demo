@@ -20,9 +20,10 @@ class ComponentsFormsController extends Controller
         $this->createRowButtons($main_row, 'soft', 'Soft Buttons');
         $this->createRowButtons($main_row, 'ghost', 'Ghost Buttons');
         $this->createRowButtons($main_row, 'gradient', 'Gradient Buttons');
-        $this->createRowButtons($main_row, 'animation', 'Animation Buttons');
+        $this->createRowButtons($main_row, 'animation', 'Animation Buttons', ['button.animation.text' => 'Texto']);
         $this->createRowButtons($main_row, 'border', 'Border Buttons');
         $this->createRowButtons($main_row, 'darken', 'Darken Buttons');
+        $this->createRowButtons($main_row, 'with-label', 'With Label', ['button.remix-icon' => 'check-double-line']);
 
         $uxmal->component('ui.card', ['options' => [
             'card.header' => 'Estilos de botones',
@@ -92,7 +93,7 @@ HIGHLIGHT;
         ])->extends('uxmal::layout.master');
     }
 
-    public function createRowButtons($uxmal_obj, $type = 'primary', $slot = '')
+    public function createRowButtons($uxmal_obj, $type = 'primary', $slot = '', $append_opts = [])
     {
         $row = $uxmal_obj
             ->component('ui.row', [
@@ -118,9 +119,8 @@ HIGHLIGHT;
                 'button.style' => 'primary',
                 'button.onclick' => 'console.log("' . $type . '-primary clicked!")',
                 'button.name' => 'button-name',
-                'button.label' => 'Botón',
-                ...($type === 'animation' ? ['button.animation.text' => 'Texto'] : [])
-            ],
+                'button.label' => 'Botón'
+            ] + $append_opts,
         ]);
 
         $row->component('form.button', [
@@ -129,9 +129,8 @@ HIGHLIGHT;
                 'button.style' => 'secondary',
                 'button.onclick' => 'console.log("' . $type . '-secondary clicked!")',
                 'button.name' => 'button-name',
-                'button.label' => 'Botón',
-                ...($type === 'animation' ? ['button.animation.text' => 'Texto'] : [])
-            ],
+                'button.label' => 'Botón'
+            ] + $append_opts,
         ]);
 
         $row->component('form.button', [
@@ -140,9 +139,8 @@ HIGHLIGHT;
                 'button.style' => 'success',
                 'button.onclick' => 'console.log("' . $type . '-success clicked!")',
                 'button.name' => 'button-name',
-                'button.label' => 'Botón',
-                ...($type === 'animation' ? ['button.animation.text' => 'Texto'] : [])
-            ],
+                'button.label' => 'Botón'
+            ] + $append_opts,
         ]);
 
         $row->component('form.button', [
@@ -151,9 +149,8 @@ HIGHLIGHT;
                 'button.style' => 'info',
                 'button.onclick' => 'console.log("' . $type . '-info clicked!")',
                 'button.name' => 'button-name',
-                'button.label' => 'Botón',
-                ...($type === 'animation' ? ['button.animation.text' => 'Texto'] : [])
-            ],
+                'button.label' => 'Botón'
+            ] + $append_opts,
         ]);
 
         $row->component('form.button', [
@@ -162,9 +159,8 @@ HIGHLIGHT;
                 'button.style' => 'warning',
                 'button.onclick' => 'console.log("' . $type . '-warning clicked!")',
                 'button.name' => 'button-name',
-                'button.label' => 'Botón',
-                ...($type === 'animation' ? ['button.animation.text' => 'Texto'] : [])
-            ],
+                'button.label' => 'Botón'
+            ] + $append_opts,
         ]);
 
         $row->component('form.button', [
@@ -173,9 +169,8 @@ HIGHLIGHT;
                 'button.style' => 'danger',
                 'button.onclick' => 'console.log("' . $type . '-danger clicked!")',
                 'button.name' => 'button-name',
-                'button.label' => 'Botón',
-                ...($type === 'animation' ? ['button.animation.text' => 'Texto'] : [])
-            ],
+                'button.label' => 'Botón'
+            ] + $append_opts,
         ]);
 
         $row->component('form.button', [
@@ -184,9 +179,8 @@ HIGHLIGHT;
                 'button.style' => 'dark',
                 'button.onclick' => 'console.log("' . $type . '-dark clicked!")',
                 'button.name' => 'button-name',
-                'button.label' => 'Botón',
-                ...($type === 'animation' ? ['button.animation.text' => 'Texto'] : [])
-            ],
+                'button.label' => 'Botón'
+            ] + $append_opts,
         ]);
 
         $row->component('form.button', [
@@ -195,9 +189,8 @@ HIGHLIGHT;
                 'button.style' => 'light',
                 'button.onclick' => 'console.log("' . $type . '-light clicked!")',
                 'button.name' => 'button-name',
-                'button.label' => 'Botón',
-                ...($type === 'animation' ? ['button.animation.text' => 'Texto'] : [])
-            ],
+                'button.label' => 'Botón'
+            ] + $append_opts,
         ]);
     }
 

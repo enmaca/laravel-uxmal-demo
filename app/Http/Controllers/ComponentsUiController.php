@@ -19,7 +19,7 @@ class ComponentsUiController extends Controller
                 ['path' => 'ui.card',
                     'attributes' => ['options' => [
                         'card.style' => $style,
-                        'card.header' => 'Header',
+                        'card.header' => 'Chimpuja',
                         'card.body' => 'Body',
                         'card.footer' => 'Footer',
                     ]],
