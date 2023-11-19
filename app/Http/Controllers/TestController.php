@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\DigitalArt;
+use App\Models\Media;
 use App\Models\Order;
 use App\Models\OrderProductDynamicDetails;
+use App\Support\Services\OrderService;
+use Enmaca\LaravelUxmal\Components\Form\Input;
+use Enmaca\LaravelUxmal\Components\Ui\Dropzone;
+use Enmaca\LaravelUxmal\Support\Helpers\UploadS3Helper;
+use Enmaca\LaravelUxmal\Support\Options\Form\Input\InputCheckboxOptions;
+use Enmaca\LaravelUxmal\Support\Options\Form\Input\InputTextOptions;
+use Enmaca\LaravelUxmal\Support\Options\Ui\DropzoneOptions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Vite;
 
@@ -601,6 +610,92 @@ class Test extends Controller
         // $uxmal->componentsInDiv()
 
         View::startPush('scripts', '<script src="' . Vite::asset('resources/js/test/test_2.js', 'workshop') . '" type="module"></script>');
+        return view('uxmal::simple-default', [
+            'uxmal_data' => $uxmal->toArray()
+        ])->extends('uxmal::layout.simple');
+    }
+
+
+    public function test_3 () {
+
+        $AdvancePaymentCheckbox = Input::Options(new InputCheckboxOptions(
+            name: 'advance_payment_50',
+            label: 'Anticipo (50%)',
+            type: 'switch',
+            direction: 'right',
+            checked: false,
+            disabled: false,
+        ))->toHtml();
+
+        $uxmal = Input::Options(new InputTextOptions(
+            label: '<div class="d-flex" style="align-content: center"><div class="col-6">Monto </div><div class="col-6">' . $AdvancePaymentCheckbox . '</div></div>',
+            name: 'amount',
+            placeholder: 'Monto',
+            required: true,
+            labelAppendAttributes: ['style' => ['width: 100%']],
+            readonly: true
+        ));
+
+        View::startPush('scripts', '<script src="' . Vite::asset('resources/js/test/test.js', 'workshop') . '" type="module"></script>');
+
+        return view('uxmal::simple-default', [
+            'uxmal_data' => $uxmal->toArray()
+        ])->extends('uxmal::layout.simple');
+    }
+
+
+    /***
+     * DropZone Test
+     */
+
+    public function dropzone(Request $request)
+    {
+        if (!$request->hasFile('file'))
+            throw new \Exception('No se ha enviado ningún archivo');
+
+        try {
+
+            $metadata = UploadS3Helper::upload(
+                file: $request->file('file'),
+                aws_key: env('AWS_KEY'),
+                aws_secret: env('AWS_SECRET'),
+                s3_bucket: env('AWS_BUCKET'),
+                s3_options: [
+                    'ACL' => 'public-read',
+                    'CacheControl' => 'max-age=0'
+                ]
+            );
+
+            return response()->json(['ok' => [
+                'url' => $metadata
+            ]], 200);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+
+    }
+
+    public function test_dropzone()
+    {
+
+        $uxmal = Dropzone::Options(new DropzoneOptions(
+            name: 'dropzone',
+            url: '/test/dropzone',
+            enablePreview: true,
+            removeLabelButton: 'Borrar',
+            method: 'POST',
+            uploadMessage: 'Archivos de referencia por el cliente maximo (1MB).',
+            maxFilesize: '1MB',
+            dictFileTooBig: 'El archivo es demasiado grande ({{filesize}}MB). Tamaño máximo de archivo: {{maxFilesize}}MB.',
+            acceptedFiles: 'image/*',
+            dictInvalidFileType: 'No se puede subir este tipo de archivo.'
+        ));
+
+        View::startPush('scripts', '<script src="' . Vite::asset('resources/js/test/test_dropzone.js', 'workshop') . '" type="module"></script>');
+
+
         return view('uxmal::simple-default', [
             'uxmal_data' => $uxmal->toArray()
         ])->extends('uxmal::layout.simple');
