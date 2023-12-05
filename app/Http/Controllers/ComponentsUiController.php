@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Enmaca\LaravelUxmal\Components\Ui\Card;
+use Enmaca\LaravelUxmal\Support\Options\Ui\CardOptions;
+use Enmaca\LaravelUxmal\Support\Options\Ui\RowOptions;
+use Enmaca\LaravelUxmal\UxmalComponent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Vite;
 
 class ComponentsUiController extends Controller
 {
@@ -11,54 +16,41 @@ class ComponentsUiController extends Controller
 
     public function card()
     {
-        $uxmal = new \Enmaca\LaravelUxmal\Uxmal;
-
-        $row1 = $uxmal->component('ui.row', ['options' => ['row.append-attributes' => ['class' => 'd-flex justify-content-evenly gap-4']]]);
-        collect(['primary', 'secondary', 'success', 'info'])->each(function ($style) use ($row1) {
-            $row1->componentsInDiv(['options' => ['row.append-attributes' => ['class' => 'w-100']]], [
-                ['path' => 'ui.card',
-                    'attributes' => ['options' => [
-                        'card.style' => $style,
-                        'card.header' => 'Chimpuja',
-                        'card.body' => 'Body',
-                        'card.footer' => 'Footer',
-                    ]],
-                ]
-            ]);
+        $uxmal = new UxmalComponent;
+        $styles = ['primary', 'secondary', 'success', 'info', 'warning', 'danger', 'dark', 'light'];
+        collect($styles)->each(function ($style) use ($uxmal) {
+            $row = $uxmal->addRow(new RowOptions(replaceAttributes: ['class' => 'mb-2 col-lg-4 col-md-12']));
+            $row->addElement(Card::Options(new CardOptions(
+                header: 'Header',
+                body: 'Style: ' . $style,
+                footer: 'Footer',
+                style: $style,
+            )));
         });
 
-        $row2 = $uxmal->component('ui.row', ['options' => ['row.append-attributes' => ['class' => 'd-flex justify-content-evenly gap-4']]]);
-        collect(['warning', 'danger', 'dark', 'light'])->each(function ($style) use ($row2) {
-            $row2->componentsInDiv(['options' => ['row.append-attributes' => ['class' => 'w-100']]], [
-                ['path' => 'ui.card',
-                    'attributes' => ['options' => [
-                        'card.style' => $style,
-                        'card.header' => 'Header',
-                        'card.body' => 'Body',
-                        'card.footer' => 'Footer',
-                    ]],
-                ]
-            ]);
-        });
-
+        $code_row = $uxmal->addRow(new RowOptions(replaceAttributes: ['class' => 'col-lg-12 mb-2']));
         $syntax = <<<'HIGHLIGHT'
-<pre><code class="language-php">&lt;?php
-    $uxmal = new \Enmaca\LaravelUxmal\Uxmal;
-    $uxmal->component('ui.card', [
-        'options' => [
-            'card.style' => 'info', // 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'dark', 'light'
-            'card.header' => 'header',
-            'card.body' => 'body',
-            'card.footer' => 'footer',
-        ],
-    ]);
+<pre class="line-numbers"><code class="language-php">&lt;?php
+    // use Enmaca\LaravelUxmal\UxmalComponent;
+    // use Enmaca\LaravelUxmal\Components\Ui\Card;
+    // use Enmaca\LaravelUxmal\Support\Options\Ui\CardOptions;
+
+    $uxmal = new UxmalComponent;
+    $uxmal->addElement(Card::Options(new CardOptions(
+        header: 'Header',
+        body: 'Body',
+        footer: 'Footer',
+        style: 'primary', // 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'dark', 'light'
+    )));
 </code></pre>
 HIGHLIGHT;
-        $uxmal->component('ui.card', ['options' => [
-            'card.header' => 'Código de ejemplo',
-            'card.body' => $syntax,
-            'card.footer' => null,
-        ]]);
+
+        $code_row->addElement(Card::Options(new CardOptions(
+            header: 'Código ejemplo',
+            body: $syntax,
+        )));
+
+        $uxmal->addScript(Vite::asset('resources/js/app.js'));
 
         return view('uxmal::master-default', [
             'uxmal_data' => $uxmal->toArray()
